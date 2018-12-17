@@ -3,7 +3,11 @@
   <p class="lead">Projeto básico de BLOG, desenvolvido utilizando Node.js, Express e MongoDB</p>
   <hr class="my-4">
   <p>Aqui você pode ler sobre as novidades do mundo da computação</p>
-  <a class="btn btn-primary btn-lg" href="/usuarios/registro" role="button">Crie uma conta</a>
+  {{#if user}}
+  
+  {{else}}
+    <a class="btn btn-primary btn-lg" href="/usuarios/registro" role="button">Crie uma conta</a>
+  {{/if}}
 </div>
 
 <hr>
