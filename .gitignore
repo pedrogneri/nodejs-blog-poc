@@ -1,1 +1,6 @@
+# Node.js
 node_modules
+
+# Mac e Windows
+.DS_STORE
+desktop.ini
