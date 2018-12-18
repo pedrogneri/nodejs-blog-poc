@@ -1,166 +1,169 @@
 'use strict';
 
-// Carregando módulos
-    const express = require('express');
-    const router = express.Router();
+// Require 
+    // módulos
+        const express = require('express');
+        const router = express.Router();
+    // Model
+        const mongoose = require('mongoose');
+        require('../models/Categoria');
+        const Categoria = mongoose.model('categorias');
+        require('../models/Postagem');
+        const Postagem = mongoose.model('postagens');
+    // Helpers
+        const {ehAdmin} = require('../helpers/ehAdmin');
 
-// Referencia ao model
-    const mongoose = require('mongoose');
-    require('../models/Categoria');
-    const Categoria = mongoose.model('categorias');
-    require('../models/Postagem');
-    const Postagem = mongoose.model('postagens');
-    const {ehAdmin} = require('../helpers/ehAdmin');
+// erros
+    const erroInterno = 'Houve um erro interno';
 
-router.get('/', ehAdmin, (req, res) => {
-    res.render('admin/index');
-});
+// Rotas
 
-// Categorias
-    
-
-    // Read
-
-
-    router.get('/categorias', ehAdmin, (req, res) => {
-        Categoria.find().then((categorias) => {
-            res.render('admin/categorias', {
-                categorias: categorias
-            });
-        }).catch((err) => {
-            req.flash('error_msg', 'Houve um erro ao listar as categorias');
-            res.redirect('/admin');
-        });
-    });
-
-
-    // Create
-
-
-    router.get('/categorias/add', ehAdmin, (req, res) => {
-        res.render('admin/addcategorias')
-    });
-
-    router.post('/categorias/nova', ehAdmin, (req, res) => {
-        var erros = [];
-
-        if(!req.body.nome || typeof req.body.nome == undefined || req.body.nome == null){
-            erros.push({
-                texto: 'Nome inválido'
-            });
-        }
-        if(!req.body.slug || typeof req.body.slug == undefined || req.body.slug == null){
-            erros.push({
-                texto: 'Slug inválido'
-            });
-        }
-
-        if(erros.length > 0){
-            res.render('admin/addcategorias', {
-                erros: erros
-            });
-        } else {
-            cadastrarCategoria();
-        }
-
-        function cadastrarCategoria(){
-            const novaCategoria = {
-                nome: req.body.nome,
-                slug: req.body.slug
-            }
+    // Categorias
         
-            new Categoria(novaCategoria).save().then(() => {
-                req.flash('success_msg', 'Categoria criada com sucesso!');
-                res.redirect('/admin/categorias/');
-            }).catch((err) => {
-                req.flash('error_msg', 'Houve um erro ao salvar a categoria, tente novamente!');
-                res.redirect('/admin');
-            });
-        }
-    });
+
+        // Read
 
 
-    // Update
-
-
-    router.get('/categorias/edit/:id', ehAdmin, (req, res) => {
-        Categoria.findOne({
-            _id: req.params.id
-        }).then((categoria) => {
-            res.render('admin/editcategorias', {
-                categoria: categoria
-            });
-        }).catch((err) => {
-            req.flash('error_msg', 'Esta categoria não existe');
-            res.redirect('/admin/categorias');
-        });
-    });
-
-    router.post('/categorias/edit', ehAdmin, (req, res) => {
-        var erros = [];
-
-        if(!req.body.nome || typeof req.body.nome == undefined || req.body.nome == null){
-            erros.push({
-                texto: 'Nome inválido'
-            });
-        }
-        if(!req.body.slug || typeof req.body.slug == undefined || req.body.slug == null){
-            erros.push({
-                texto: 'Slug inválido'
-            });
-        }
-
-        if(erros.length > 0){
-            res.render('admin/editcategorias', {
-                erros: erros
-            });
-        } else {
-            editarCategoria();
-        }
-
-        function editarCategoria(){
-            Categoria.findOne({
-                _id: req.body.id
-            }).then((categoria) => {
-                categoria.nome = req.body.nome;
-                categoria.slug = req.body.slug;
-
-                categoria.save().then(() => {
-                    req.flash('success_msg', 'Categoria alterada com sucesso');
-                    res.redirect('/admin/categorias');
-                }).catch((err) => {
-                    req.flash('error_msg', 'Houve um erro interno ao salvar a edição da categoria');
-                    res.redirect('/admin/categoria');
+        router.get('/categorias', ehAdmin, (req, res) => {
+            Categoria.find().then((categorias) => {
+                res.render('admin/categorias', {
+                    categorias: categorias
                 });
             }).catch((err) => {
-                req.flash('error_msg', 'Houve um erro ao editar a categoria');
+                req.flash('error_msg', 'Houve um erro ao listar as categorias');
+                res.redirect('/admin');
+            });
+        });
+
+
+        // Create
+
+
+        router.get('/categorias/add', ehAdmin, (req, res) => {
+            res.render('admin/addcategorias')
+        });
+
+        router.post('/categorias/nova', ehAdmin, (req, res) => {
+            var erros = [];
+
+            if(!req.body.nome || typeof req.body.nome == undefined || req.body.nome == null){
+                erros.push({
+                    texto: 'Nome inválido'
+                });
+            }
+            if(!req.body.slug || typeof req.body.slug == undefined || req.body.slug == null){
+                erros.push({
+                    texto: 'Slug inválido'
+                });
+            }
+
+            if(erros.length > 0){
+                res.render('admin/addcategorias', {
+                    erros: erros
+                });
+            } else {
+                cadastrarCategoria();
+            }
+
+            function cadastrarCategoria(){
+                const novaCategoria = {
+                    nome: req.body.nome,
+                    slug: req.body.slug
+                }
+            
+                new Categoria(novaCategoria).save().then(() => {
+                    req.flash('success_msg', 'Categoria criada com sucesso!');
+                    res.redirect('/admin/categorias/');
+                }).catch((err) => {
+                    req.flash('error_msg', 'Houve um erro ao salvar a categoria, tente novamente!');
+                    res.redirect('/admin');
+                });
+            }
+        });
+
+
+        // Update
+
+
+        router.get('/categorias/edit/:id', ehAdmin, (req, res) => {
+            Categoria.findOne({
+                _id: req.params.id
+            }).then((categoria) => {
+                res.render('admin/editcategorias', {
+                    categoria: categoria
+                });
+            }).catch((err) => {
+                req.flash('error_msg', 'Esta categoria não existe');
                 res.redirect('/admin/categorias');
             });
-        }
-    });
-
-
-    // Delete
-
-
-    router.post('/categorias/deletar', ehAdmin, (req, res) => {
-        Categoria.deleteOne({
-            _id: req.body.id
-        }).then(() => {
-            req.flash('success_msg', 'Categoria deletada com sucesso');
-            res.redirect('/admin/categorias');
-        }).catch((err) => {
-            req.flash('error_msg', 'Houve um erro ao deletar a categoria');
-            res.redirect('/admin/categorias');
         });
-    });
 
+        router.post('/categorias/edit', ehAdmin, (req, res) => {
+            var erros = [];
+
+            if(!req.body.nome || typeof req.body.nome == undefined || req.body.nome == null){
+                erros.push({
+                    texto: 'Nome inválido'
+                });
+            }
+            if(!req.body.slug || typeof req.body.slug == undefined || req.body.slug == null){
+                erros.push({
+                    texto: 'Slug inválido'
+                });
+            }
+
+            if(erros.length > 0){
+                res.render('admin/editcategorias', {
+                    erros: erros
+                });
+            } else {
+                editarCategoria();
+            }
+
+            function editarCategoria(){
+                Categoria.findOne({
+                    _id: req.body.id
+                }).then((categoria) => {
+                    categoria.nome = req.body.nome;
+                    categoria.slug = req.body.slug;
+
+                    categoria.save().then(() => {
+                        req.flash('success_msg', 'Categoria alterada com sucesso');
+                        res.redirect('/admin/categorias');
+                    }).catch((err) => {
+                        req.flash('error_msg', erroInterno);
+                        res.redirect('/admin/categoria');
+                    });
+                }).catch((err) => {
+                    req.flash('error_msg', 'Houve um erro ao editar a categoria');
+                    res.redirect('/admin/categorias');
+                });
+            }
+        });
+
+
+        // Delete
+
+
+        router.post('/categorias/deletar', ehAdmin, (req, res) => {
+            Categoria.deleteOne({
+                _id: req.body.id
+            }).then(() => {
+                req.flash('success_msg', 'Categoria deletada com sucesso');
+                res.redirect('/admin/categorias');
+            }).catch((err) => {
+                req.flash('error_msg', 'Houve um erro ao deletar a categoria');
+                res.redirect('/admin/categorias');
+            });
+        });
 
 
 // Postagens
 
 
     // Read
+
+
     router.get('/postagens', ehAdmin, (req, res) => {
         Postagem.find().populate('categoria').then((postagens) => {
             res.render('admin/postagens', {
@@ -174,6 +177,8 @@ router.get('/', ehAdmin, (req, res) => {
 
 
     // Create
+
+
     router.get('/postagens/add', ehAdmin, (req, res) => {
         Categoria.find().then((categorias) => {
             res.render('admin/addpostagens', {
@@ -278,7 +283,7 @@ router.get('/', ehAdmin, (req, res) => {
                 req.flash('success_msg', 'Postagem editada com sucesso');
                 res.redirect('/admin/postagens');
             }).catch((err) => {
-                req.flash('error_msg', 'Erro interno');
+                req.flash('error_msg', erroInterno);
                 res.redirect('/admin/postagens');
             });
         }).catch((err) => {
@@ -298,11 +303,10 @@ router.get('/', ehAdmin, (req, res) => {
             req.flash('success_msg', 'Postagem deletada com sucesso');
             res.redirect('/admin/postagens');
         }).catch((err) => {
-            req.flash('error_msg', 'Houve um erro interno');
+            req.flash('error_msg', erroInterno);
             res.redirect('/admin/postagens');
         });
     });
-
 
 // Exportar rotas
     module.exports = router;
