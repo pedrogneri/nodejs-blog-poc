@@ -9,20 +9,30 @@
       <li class="nav-item">
         <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/categorias">Categorias</a>
-      </li>
+     
       {{#if user}}
-      <li class="nav-item">
-        <a class="nav-link" href="/usuarios/logout">Sair</a>
-      </li>
+        {{#if ehAdmin}}
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/categorias">Categorias</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/postagens">Postagens</a>
+          </li>
+        {{else}}
+          <li class="nav-item">
+            <a class="nav-link" href="/categorias">Categorias</a>
+          </li>
+        {{/if}}
+        <li class="nav-item">
+          <a class="nav-link" href="/usuarios/logout">Sair</a>
+        </li>
       {{else}}
-      <li class="nav-item">
-        <a class="nav-link" href="/usuarios/login">Login</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/usuarios/registro">Registro</a>
-      </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/usuarios/login">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/usuarios/registro">Registro</a>
+        </li>
       {{/if}}
     </ul>
   </div>

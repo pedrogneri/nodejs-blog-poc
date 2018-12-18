@@ -2,15 +2,23 @@
   {{#if user}}
     <h1 class="display-4">Bem-vindo ao Blog Genérico, <br> {{user.nome}}!</h1>
   {{else}}
-    <h1 class="display-4">Bem-vindo ao Blog Genérico, <br> registre-se agora!</h1>
+    <h1 class="display-4">Bem-vindo ao Blog Genérico!</h1>
   {{/if}}
+  
   <p class="lead">Projeto básico de BLOG, desenvolvido utilizando Node.js, Express e MongoDB</p>
   <hr class="my-4">
-  <p>Aqui você pode ler sobre as novidades do mundo da computação</p>
   {{#if user}}
-
+    {{#if ehAdmin}}
+        <h3>Gerenciamento do blog: </h3>
+        <a class="btn btn-primary btn-lg" href="/admin/categorias" role="button">Categorias</a>
+        <a class="btn btn-primary btn-lg" href="/admin/postagens" role="button">Postagens</a>
+    {{else}}
+        <h3>Divirta-se no blog, navegue pelos posts: </h3>
+        <a class="btn btn-primary btn-lg" href="/usuarios/categorias" role="button">Categorias</a>
+    {{/if}}
   {{else}}
-    <a class="btn btn-success btn-lg" href="/usuarios/registro" role="button">Criar conta</a>
+    <h3>Faça parte do blog, registre-se agora: </h3>
+    <a class="btn btn-primary btn-lg" href="/usuarios/registro" role="button">Criar conta</a>
     <a class="btn btn-primary btn-lg" href="/usuarios/login" role="button">Logar</a>
   {{/if}}
 </div>

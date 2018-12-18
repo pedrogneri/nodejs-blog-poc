@@ -50,6 +50,11 @@
             res.locals.error_msg = req.flash('error_msg'); 
             res.locals.error = req.flash('error');
             res.locals.user = req.user || null;
+            if(req.isAuthenticated()){
+                res.locals.ehAdmin = req.user.ehAdmin;
+            } else {
+                res.locals.ehAdmin = 0;
+            }
             next();
         });
     // Body Parser{
@@ -80,9 +85,15 @@
             Postagem.find().populate('categoria').sort({
                 data: 'desc'
                 }).then((postagens) => {
-                res.render('index', {
-                    postagens: postagens
-                });
+                    if(req.isAuthenticated()){
+                        res.render('index', {
+                            postagens: postagens
+                        });
+                    } else {
+                        res.render('index', {
+                            postagens: postagens
+                        });
+                    }
             }).catch((err) => {
                 req.flash('error_msg', erroInterno);
                 res.redirect('/404');
