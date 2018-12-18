@@ -1,5 +1,7 @@
 'use strict';
 
+var now = new Date;
+
 // Require
     // Módulos
         const mongoose = require('mongoose');
@@ -29,8 +31,8 @@
             required: true
         },
         data: {
-            type: Date,
-            default: Date.now()
+            type: String,
+            default: now.getDate() + "/" + (now.getMonth()+1) + "/" + now.getFullYear()
         }
     });
 
