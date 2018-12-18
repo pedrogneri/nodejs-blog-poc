@@ -1,12 +1,17 @@
 <div class="jumbotron">
-  <h1 class="display-4">Bem-vindo ao Blog de Node</h1>
+  {{#if user}}
+    <h1 class="display-4">Bem-vindo ao Blog Genérico, <br> {{user.nome}}!</h1>
+  {{else}}
+    <h1 class="display-4">Bem-vindo ao Blog Genérico, <br> registre-se agora!</h1>
+  {{/if}}
   <p class="lead">Projeto básico de BLOG, desenvolvido utilizando Node.js, Express e MongoDB</p>
   <hr class="my-4">
   <p>Aqui você pode ler sobre as novidades do mundo da computação</p>
   {{#if user}}
-  
+
   {{else}}
-    <a class="btn btn-primary btn-lg" href="/usuarios/registro" role="button">Crie uma conta</a>
+    <a class="btn btn-success btn-lg" href="/usuarios/registro" role="button">Criar conta</a>
+    <a class="btn btn-primary btn-lg" href="/usuarios/login" role="button">Logar</a>
   {{/if}}
 </div>
 
@@ -25,6 +30,8 @@
             <small>Categoria: {{categoria.nome}}</small>
             <br>
             <small>Data de publicação: {{data}}</small>
+            <br>
+            <small>Autor: {{autor}}</small>
         </div>
     </div>
 {{else}}

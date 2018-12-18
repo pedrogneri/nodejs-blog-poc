@@ -33,6 +33,10 @@ var now = new Date;
         data: {
             type: String,
             default: now.getDate() + "/" + (now.getMonth()+1) + "/" + now.getFullYear()
+        },
+        autor: {
+            type: String,
+            required: true
         }
     });
 

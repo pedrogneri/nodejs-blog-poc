@@ -91,21 +91,26 @@
     
     // Postagem
         app.get('/postagem/:slug', (req, res) => {
-            Postagem.findOne({
-                slug: req.params.slug
-            }).populate('categoria').then((postagem) => {
-                if(postagem){
-                    res.render('postagem/index', {
-                        postagem: postagem
-                    });
-                } else{
-                    req.flash('error_msg', postagemInex);
+            if(req.isAuthenticated()){
+                Postagem.findOne({
+                    slug: req.params.slug
+                }).populate('categoria').then((postagem) => {
+                    if(postagem){
+                        res.render('postagem/index', {
+                            postagem: postagem
+                        });
+                    } else{
+                        req.flash('error_msg', postagemInex);
+                        res.redirect('/');
+                    }
+                }).catch(() => {
+                    req.flash('error_msg', erroInterno);
                     res.redirect('/');
-                }
-            }).catch(() => {
-                req.flash('error_msg', erroInterno);
+                });
+            } else {
+                req.flash('error_msg', 'Você tem que estar logado para ver as postagens');
                 res.redirect('/');
-            });
+            }
         });
 
     // Categorias

@@ -2,5 +2,5 @@
 node_modules
 
 # Mac e Windows
-.DS_STORE
+.DS_Store
 desktop.ini

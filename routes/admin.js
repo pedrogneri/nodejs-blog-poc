@@ -233,7 +233,8 @@
                 slug: req.body.slug,
                 descricao: req.body.descricao,
                 conteudo: req.body.conteudo,
-                categoria: req.body.categoria
+                categoria: req.body.categoria,
+                autor: req.user.nome
             }
             new Postagem(novaPostagem).save().then(() => {
                 req.flash('success_msg', 'A postagem foi cadastrada com sucesso');
