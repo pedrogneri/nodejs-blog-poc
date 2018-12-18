@@ -1,11 +1,37 @@
+<style>
+    /* Mobile size */
+    @media only screen and (max-width: 767px) {
+        #welcome {
+            font-size: 22px;
+            font-weight: bold
+        }
+        #msg {
+            font-size: 20px;
+        }
+        #img {
+            width: 125px;
+        }
+    }   
+</style>
+
 <div class="jumbotron">
   {{#if user}}
-    <h1 class="display-4">Bem-vindo ao Blog Genérico, <br> {{user.nome}}!</h1>
+    {{#if ehAdmin}}
+        <div class="float-right">
+            <img id="img" src="img/admin.png" width="200px">
+        </div>
+    {{else}}
+        <div class="float-right">
+            <img id="img" src="img/usuario.png" width="200px">
+        </div>    
+    {{/if}}
+    <h1 class="display-4" id="welcome">Bem-vindo ao Blog, <br> {{user.nome}}!</h1>
   {{else}}
-    <h1 class="display-4">Bem-vindo ao Blog Genérico!</h1>
+    <h1 class="display-4">Bem-vindo ao Blog!</h1>
   {{/if}}
   
-  <p class="lead">Projeto básico de BLOG, desenvolvido utilizando Node.js, Express e MongoDB</p>
+  <p class="lead" id="msg">Projeto básico de BLOG, desenvolvido utilizando Node.js, Express e MongoDB</p>
+  <br>
   <hr class="my-4">
   {{#if user}}
     {{#if ehAdmin}}
@@ -14,7 +40,7 @@
         <a class="btn btn-primary btn-lg" href="/admin/postagens" role="button">Postagens</a>
     {{else}}
         <h3>Divirta-se no blog, navegue pelos posts: </h3>
-        <a class="btn btn-primary btn-lg" href="/usuarios/categorias" role="button">Categorias</a>
+        <a class="btn btn-primary btn-lg" href="/categorias" role="button">Categorias</a>
     {{/if}}
   {{else}}
     <h3>Faça parte do blog, registre-se agora: </h3>
@@ -26,7 +52,6 @@
 <hr>
 
 <h2>Postagens recentes:</h2>
-
 
 {{#each postagens}}
     <div class="card mt-4">
