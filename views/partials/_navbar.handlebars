@@ -7,20 +7,20 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
-        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" id="home" href="/">Home <span class="sr-only">(current)</span></a>
       </li>
      
       {{#if user}}
         {{#if ehAdmin}}
           <li class="nav-item">
-            <a class="nav-link" href="/admin/categorias">Categorias</a>
+            <a class="nav-link" id="admCategorias" href="/admin/categorias">Categorias</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/admin/postagens">Postagens</a>
+            <a class="nav-link" id="admPost" href="/admin/postagens">Postagens</a>
           </li>
         {{else}}
           <li class="nav-item">
-            <a class="nav-link" href="/categorias">Categorias</a>
+            <a class="nav-link" id="categorias" href="/categorias">Categorias</a>
           </li>
         {{/if}}
         <li class="nav-item">
@@ -28,10 +28,10 @@
         </li>
       {{else}}
         <li class="nav-item">
-          <a class="nav-link" href="/usuarios/login">Login</a>
+          <a class="nav-link" id="login" href="/usuarios/login">Login</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/usuarios/registro">Registro</a>
+          <a class="nav-link" id="registro" href="/usuarios/registro">Registro</a>
         </li>
       {{/if}}
     </ul>
