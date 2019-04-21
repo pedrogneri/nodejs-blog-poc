@@ -1,10 +1,26 @@
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v3.2"></script>
+
 <div class="card">
     <div class="card-body">
         <h1>{{postagem.titulo}}</h1>
-        <small>Data de publicação: {{postagem.data}}</small>
+        <small>
+            {{postagem.autor}}
+            <i style="color: gray">  
+                &bull; 
+                {{postagem.data}}
+            </i>
+        </small>
         <br>
-        <small>Autor: {{postagem.autor}}</small>
         <hr>
-        <p align="justify">{{postagem.conteudo}}</p>
+        <div style="text-align:justify">
+            {{{postagem.conteudo}}}
+        </div>
     </div>
 </div>
+
+<div class="float-right fb-share-button" data-href="https://blog-nodeproj.herokuapp.com/postagem/{{postagem.slug}}" data-layout="button_count" data-size="small">
+    <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Compartilhar</a>
+</div>
+<div class="fb-comments mt-4" data-href="https://blog-nodeproj.herokuapp.com/postagem/{{postagem.slug}}" data-numposts="5"></div>
+
